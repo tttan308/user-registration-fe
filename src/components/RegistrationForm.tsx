@@ -19,7 +19,10 @@ const RegistrationForm: React.FC = () => {
     setMessage(null);
     setError(null);
 
-    if (formData.email === "test@example.com" && formData.password === "password") {
+    if (
+      formData.email === "test@example.com" &&
+      formData.password === "password"
+    ) {
       setMessage("Đăng ký thành công!");
 
       setTimeout(() => {
