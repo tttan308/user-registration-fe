@@ -1,16 +1,17 @@
-// src/hooks/useAuthRedirect.ts
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const useAuthRedirect = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-    if (!isAuthenticated) {
-      navigate("/register");
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+
+    if (!isAuthenticated && location.pathname !== '/register') {
+      navigate('/register');
     }
-  }, [navigate]);
+  }, [navigate, location]);
 };
 
 export default useAuthRedirect;

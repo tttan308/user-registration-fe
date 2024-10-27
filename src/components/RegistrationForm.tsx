@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography } from "@mui/material";
-import { registerUser } from "../services/api";
+import { useNavigate } from "react-router-dom";
 import { User } from "../types/userType";
 
 const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<User>({ email: "", password: "" });
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -18,15 +19,14 @@ const RegistrationForm: React.FC = () => {
     setMessage(null);
     setError(null);
 
-    try {
-      const response = await registerUser(formData);
-      setMessage(response.message);
-    } catch (err) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError("An unknown error occurred");
-      }
+    if (formData.email === "test@example.com" && formData.password === "password") {
+      setMessage("Đăng ký thành công!");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } else {
+      setError("Email hoặc mật khẩu không hợp lệ.");
     }
   };
 
