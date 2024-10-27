@@ -1,4 +1,4 @@
-# user-registration-fe
+# User-Registration
 ## Frontend Implementation (React)
 ### User Registration Form:
 - Handle routing for Home, Login, and Register pages
