@@ -1,74 +1,65 @@
-import React, { useState } from "react";
-import { TextField, Button, Alert, Box } from "@mui/material";
-import { registerUser } from "../api/userApi";
+import React, { useState } from 'react';
+import { TextField, Button, Typography } from '@mui/material';
+import { registerUser } from '../services/api';
+import { User } from '../types/userType';
 
 const RegistrationForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState<User>({ email: '', password: '' });
+    const [message, setMessage] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
-    setLoading(true);
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-    try {
-      await registerUser(email, password);
-      setSuccess("Registration successful!");
-      setEmail("");
-      setPassword("");
-    } catch (err) {
-      setError(err as string);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setMessage(null);
+        setError(null);
 
-  return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-      <TextField
-        label="Email"
-        type="email"
-        fullWidth
-        required
-        margin="normal"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        fullWidth
-        required
-        margin="normal"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        color="primary"
-        sx={{ mt: 2 }}
-        disabled={loading}
-      >
-        {loading ? "Registering..." : "Register"}
-      </Button>
-      {error && (
-        <Alert severity="error" sx={{ mt: 2 }}>
-          {error}
-        </Alert>
-      )}
-      {success && (
-        <Alert severity="success" sx={{ mt: 2 }}>
-          {success}
-        </Alert>
-      )}
-    </Box>
-  );
+        try {
+            const response = await registerUser(formData);
+            setMessage(response.message);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('An unknown error occurred');
+            }
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <Typography variant="h5">Đăng Ký</Typography>
+            <TextField
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                fullWidth
+                margin="normal"
+            />
+            <TextField
+                label="Password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                fullWidth
+                margin="normal"
+            />
+            <Button type="submit" variant="contained" color="primary">
+                Đăng Ký
+            </Button>
+            {message && <Typography color="success.main">{message}</Typography>}
+            {error && <Typography color="error.main">{error}</Typography>}
+        </form>
+    );
 };
 
 export default RegistrationForm;
