@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Alert, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../api/authApi';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { TextField, Button, Typography, Alert, Box } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../api/authApi";
+import { useAuth } from "../context/AuthContext";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -18,15 +18,15 @@ const Login: React.FC = () => {
     try {
       const data = await loginUser(email, password);
       login(data.token);
-      navigate('/');
+      navigate("/");
     } catch (err) {
       setError(err as string);
     }
   };
 
   return (
-    <Box sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-      <Typography variant="h4" sx={{ textAlign: 'center', mb: 3 }}>
+    <Box sx={{ maxWidth: 400, mx: "auto", mt: 4 }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
         Login
       </Typography>
       <form onSubmit={handleSubmit}>
@@ -50,7 +50,13 @@ const Login: React.FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit" fullWidth variant="contained" color="primary" sx={{ mt: 2 }}>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          sx={{ mt: 2 }}
+        >
           Login
         </Button>
         {error && (

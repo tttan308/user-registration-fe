@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -11,9 +11,9 @@ export const loginUser = async (email: string, password: string) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw error.response?.data || 'Login failed';
+      throw error.response?.data || "Login failed";
     } else {
-      throw new Error('Login failed');
+      throw new Error("Login failed");
     }
   }
 };
