@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -13,7 +13,7 @@ export const registerUser = async (email: string, password: string) => {
     if (axios.isAxiosError(error) && error.response) {
       throw error.response.data;
     } else {
-      throw new Error('Registration failed');
+      throw new Error("Registration failed");
     }
   }
 };
