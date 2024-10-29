@@ -17,9 +17,9 @@ export const loginUser = async (userData: User): Promise<LoginResponse> => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || "Đăng nhập thất bại");
+      throw new Error(error.response?.data?.message || "Failed to login");
     } else {
-      throw new Error("Đăng nhập thất bại");
+      throw new Error("Failed to login");
     }
   }
 };
@@ -35,9 +35,9 @@ export const registerUser = async (
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      throw new Error(error.response?.data?.message || "Đăng ký thất bại");
+      throw new Error(error.response?.data?.message || "Failed to register");
     } else {
-      throw new Error("Đăng ký thất bại");
+      throw new Error("Failed to register");
     }
   }
 };
