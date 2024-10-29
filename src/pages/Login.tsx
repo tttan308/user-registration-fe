@@ -18,20 +18,28 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false); // loading state
+  const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true); // Start loading
+
+    if (!emailRegex.test(email)) {
+      setError("Invalid email format");
+      return;
+    }
+
+    setLoading(true);
 
     const userData: User = { email, password };
 
     try {
       const response: LoginResponse = await loginUser(userData);
-      login(response); // Set authentication state and store tokens
+      login(response);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -39,7 +47,7 @@ const Login: React.FC = () => {
         setError("An unknown error occurred");
       }
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -82,7 +90,16 @@ const Login: React.FC = () => {
                 margin="normal"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onBlur={() => {
+                  if (!emailRegex.test(email)) {
+                    setError("Invalid email format");
+                  } else {
+                    setError(null);
+                  }
+                }}
                 required
+                error={!!error && error.includes("email")}
+                helperText={error && error.includes("email") ? error : ""}
               />
               <TextField
                 label="Password"
@@ -93,8 +110,9 @@ const Login: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                error={!!error && !error.includes("email")}
               />
-              {error && (
+              {error && !error.includes("email") && (
                 <Typography
                   color="error"
                   variant="body2"

@@ -24,7 +24,7 @@ const Register: React.FC = () => {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError("Password do not match");
+      setError("Passwords do not match");
       return;
     }
 
@@ -40,6 +40,10 @@ const Register: React.FC = () => {
         setError("An unknown error occurred");
       }
     }
+  };
+
+  const handleLoginNavigation = () => {
+    navigate("/login");
   };
 
   return (
@@ -129,6 +133,26 @@ const Register: React.FC = () => {
                 Register
               </Button>
             </form>
+            <Button
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              onClick={handleLoginNavigation}
+              sx={{
+                mt: 2,
+                py: 1,
+                fontSize: "1rem",
+                borderRadius: "20px",
+                fontWeight: "bold",
+                boxShadow: 2,
+                "&:hover": {
+                  backgroundColor: "#f0f0f0",
+                  boxShadow: 3,
+                },
+              }}
+            >
+              Login
+            </Button>
           </CardContent>
         </Card>
       </Container>
