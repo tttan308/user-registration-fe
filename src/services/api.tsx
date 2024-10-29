@@ -7,7 +7,7 @@ import {
 } from "../types/userType";
 
 const api = axios.create({
-  baseURL: "https://user-registration-be.onrender.com",
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 export const loginUser = async (userData: User): Promise<LoginResponse> => {
