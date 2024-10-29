@@ -1,18 +1,18 @@
 import axios from "axios";
-import { User, RegisterResponse, LoginResponse, LogoutRequest } from "../types/userType";
+import {
+  User,
+  RegisterResponse,
+  LoginResponse,
+  LogoutRequest,
+} from "../types/userType";
 
 const api = axios.create({
   baseURL: "https://user-registration-be.onrender.com",
 });
 
-export const loginUser = async (
-  userData: User,
-): Promise<LoginResponse> => {
+export const loginUser = async (userData: User): Promise<LoginResponse> => {
   try {
-    const response = await api.post<LoginResponse>(
-      "/user/login",
-      userData,
-    );
+    const response = await api.post<LoginResponse>("/user/login", userData);
 
     return response.data;
   } catch (error) {
@@ -24,9 +24,14 @@ export const loginUser = async (
   }
 };
 
-export const registerUser = async (userData: User): Promise<RegisterResponse> => {
+export const registerUser = async (
+  userData: User,
+): Promise<RegisterResponse> => {
   try {
-    const response = await api.post<RegisterResponse>("/user/register", userData);
+    const response = await api.post<RegisterResponse>(
+      "/user/register",
+      userData,
+    );
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -47,4 +52,4 @@ export const logOut = async (logoutRequest: LogoutRequest) => {
       throw new Error("Đăng xuất thất bại");
     }
   }
-}
+};

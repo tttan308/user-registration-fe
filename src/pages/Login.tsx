@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Container, Card, CardContent, Box, CircularProgress } from '@mui/material';
-import { loginUser } from '../services/api';
-import { User, LoginResponse } from '../types/userType';
-import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Card,
+  CardContent,
+  Box,
+  CircularProgress,
+} from "@mui/material";
+import { loginUser } from "../services/api";
+import { User, LoginResponse } from "../types/userType";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false); // loading state
   const { login } = useAuth();
@@ -27,7 +36,7 @@ const Login: React.FC = () => {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('An unknown error occurred');
+        setError("An unknown error occurred");
       }
     } finally {
       setLoading(false); // Stop loading
@@ -35,33 +44,37 @@ const Login: React.FC = () => {
   };
 
   const handleRegisterNavigation = () => {
-    navigate('/register');
+    navigate("/register");
   };
 
   return (
     <Box
       sx={{
-        background: 'linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%)',
-        minHeight: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
+        background: "linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%)",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Container maxWidth="xs">
         <Card sx={{ borderRadius: 3, boxShadow: 6 }}>
           <CardContent
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
               padding: 4,
             }}
           >
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2' }}>
+            <Typography
+              variant="h4"
+              gutterBottom
+              sx={{ fontWeight: "bold", color: "#1976d2" }}
+            >
               Login
             </Typography>
-            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+            <form onSubmit={handleSubmit} style={{ width: "100%" }}>
               <TextField
                 label="Email"
                 variant="outlined"
@@ -82,7 +95,11 @@ const Login: React.FC = () => {
                 required
               />
               {error && (
-                <Typography color="error" variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+                <Typography
+                  color="error"
+                  variant="body2"
+                  sx={{ mt: 2, textAlign: "center" }}
+                >
                   {error}
                 </Typography>
               )}
@@ -94,18 +111,22 @@ const Login: React.FC = () => {
                 sx={{
                   mt: 3,
                   py: 1.5,
-                  fontSize: '1rem',
-                  borderRadius: '20px',
-                  fontWeight: 'bold',
+                  fontSize: "1rem",
+                  borderRadius: "20px",
+                  fontWeight: "bold",
                   boxShadow: 3,
-                  '&:hover': {
-                    backgroundColor: '#1565c0',
+                  "&:hover": {
+                    backgroundColor: "#1565c0",
                     boxShadow: 4,
                   },
                 }}
                 disabled={loading}
               >
-                {loading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Login"
+                )}
               </Button>
             </form>
             <Button
@@ -116,12 +137,12 @@ const Login: React.FC = () => {
               sx={{
                 mt: 2,
                 py: 1,
-                fontSize: '1rem',
-                borderRadius: '20px',
-                fontWeight: 'bold',
+                fontSize: "1rem",
+                borderRadius: "20px",
+                fontWeight: "bold",
                 boxShadow: 2,
-                '&:hover': {
-                  backgroundColor: '#f0f0f0',
+                "&:hover": {
+                  backgroundColor: "#f0f0f0",
                   boxShadow: 3,
                 },
               }}
