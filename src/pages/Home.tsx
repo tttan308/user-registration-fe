@@ -1,32 +1,69 @@
-import React from "react";
-import { Typography, Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import useAuthRedirect from "../hooks/useAuthRedirect";
+import React from 'react';
+import { Typography, Container, Button, Card, CardContent, Box } from '@mui/material';
+import { useAuth } from '../context/AuthContext';
 
 const Home: React.FC = () => {
-  useAuthRedirect();
-
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("isAuthenticated");
-    navigate("/login");
-  };
+  const { logout } = useAuth();
 
   return (
-    <div className="p-4 max-w-lg mx-auto text-center bg-white shadow-md rounded-md">
-      <Typography variant="h4" className="text-3xl font-bold mb-4">
-        Chào mừng đến Trang Chủ
-      </Typography>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleLogout}
-        className="mt-4"
-      >
-        Đăng Xuất
-      </Button>
-    </div>
+    <Box
+      sx={{
+        background: 'linear-gradient(135deg, #6e8efb, #a777e3)',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Container maxWidth="sm">
+        <Card sx={{ maxWidth: 500, borderRadius: 3, boxShadow: 6 }}>
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              padding: 4,
+            }}
+          >
+            <Typography
+              variant="h3"
+              gutterBottom
+              sx={{ fontWeight: 'bold', color: '#4a148c' }}
+            >
+              Welcome!
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                marginBottom: 3,
+                color: '#555',
+              }}
+            >
+              You are successfully logged in to your account.
+            </Typography>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={logout}
+              sx={{
+                paddingX: 4,
+                paddingY: 1.5,
+                fontSize: '1rem',
+                borderRadius: '20px',
+                boxShadow: 3,
+                '&:hover': {
+                  backgroundColor: '#d32f2f',
+                  color: '#fff',
+                },
+              }}
+            >
+              Logout
+            </Button>
+          </CardContent>
+        </Card>
+      </Container>
+    </Box>
   );
 };
 

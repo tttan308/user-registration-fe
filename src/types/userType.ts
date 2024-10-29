@@ -4,6 +4,18 @@ export interface User {
 }
 
 export interface RegisterResponse {
-  success: boolean;
-  message: string;
+  id: string;
+  email: string;
+  password: string;
+  createdAt: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: User;
+}
+
+export interface LogoutRequest {
+  token: string; // refresh token
 }

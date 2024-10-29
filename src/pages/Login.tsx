@@ -1,61 +1,137 @@
-import React, { useEffect, useState } from "react";
-import { TextField, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { TextField, Button, Typography, Container, Card, CardContent, Box, CircularProgress } from '@mui/material';
+import { loginUser } from '../services/api';
+import { User, LoginResponse } from '../types/userType';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false); // loading state
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const isAuthen = localStorage.getItem("isAuthenticated");
-    if (isAuthen) {
-      navigate("/");
-    }
-  }, [navigate]);
-
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    setLoading(true); // Start loading
 
-    if (email === "user@example.com" && password === "password") {
-      localStorage.setItem("isAuthenticated", "true");
-      navigate("/");
-    } else {
-      setError("Thông tin đăng nhập không chính xác");
+    const userData: User = { email, password };
+
+    try {
+      const response: LoginResponse = await loginUser(userData);
+      login(response); // Set authentication state and store tokens
+    } catch (err) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
+  const handleRegisterNavigation = () => {
+    navigate('/register');
+  };
+
   return (
-    <form
-      onSubmit={handleLogin}
-      style={{ maxWidth: 400, margin: "auto", padding: "1rem" }}
+    <Box
+      sx={{
+        background: 'linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%)',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      <Typography variant="h5">Đăng Nhập</Typography>
-      <TextField
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-        fullWidth
-        margin="normal"
-      />
-      <Button type="submit" variant="contained" color="primary">
-        Đăng Nhập
-      </Button>
-      {error && <Typography color="error.main">{error}</Typography>}
-    </form>
+      <Container maxWidth="xs">
+        <Card sx={{ borderRadius: 3, boxShadow: 6 }}>
+          <CardContent
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              padding: 4,
+            }}
+          >
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#1976d2' }}>
+              Login
+            </Typography>
+            <form onSubmit={handleSubmit} style={{ width: '100%' }}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              {error && (
+                <Typography color="error" variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
+                  {error}
+                </Typography>
+              )}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{
+                  mt: 3,
+                  py: 1.5,
+                  fontSize: '1rem',
+                  borderRadius: '20px',
+                  fontWeight: 'bold',
+                  boxShadow: 3,
+                  '&:hover': {
+                    backgroundColor: '#1565c0',
+                    boxShadow: 4,
+                  },
+                }}
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} color="inherit" /> : 'Login'}
+              </Button>
+            </form>
+            <Button
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              onClick={handleRegisterNavigation}
+              sx={{
+                mt: 2,
+                py: 1,
+                fontSize: '1rem',
+                borderRadius: '20px',
+                fontWeight: 'bold',
+                boxShadow: 2,
+                '&:hover': {
+                  backgroundColor: '#f0f0f0',
+                  boxShadow: 3,
+                },
+              }}
+            >
+              Register
+            </Button>
+          </CardContent>
+        </Card>
+      </Container>
+    </Box>
   );
 };
 

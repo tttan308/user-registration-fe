@@ -1,18 +1,19 @@
 import axios from "axios";
-import { User, RegisterResponse } from "../types/userType";
+import { User, RegisterResponse, LoginResponse, LogoutRequest } from "../types/userType";
 
 const api = axios.create({
-  baseURL: "https://your-api-url.com",
+  baseURL: "https://user-registration-be.onrender.com",
 });
 
-export const registerUser = async (
+export const loginUser = async (
   userData: User,
-): Promise<RegisterResponse> => {
+): Promise<LoginResponse> => {
   try {
-    const response = await api.post<RegisterResponse>(
-      "/user/register",
+    const response = await api.post<LoginResponse>(
+      "/user/login",
       userData,
     );
+
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -22,3 +23,28 @@ export const registerUser = async (
     }
   }
 };
+
+export const registerUser = async (userData: User): Promise<RegisterResponse> => {
+  try {
+    const response = await api.post<RegisterResponse>("/user/register", userData);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Đăng nhập thất bại");
+    } else {
+      throw new Error("Đăng nhập thất bại");
+    }
+  }
+};
+
+export const logOut = async (logoutRequest: LogoutRequest) => {
+  try {
+    await api.post("/user/logout", logoutRequest);
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data?.message || "Đăng xuất thất bại");
+    } else {
+      throw new Error("Đăng xuất thất bại");
+    }
+  }
+}
