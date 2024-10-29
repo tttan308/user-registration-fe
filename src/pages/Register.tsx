@@ -17,11 +17,21 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null); // Email validation error
   const navigate = useNavigate();
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format validation regex
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email format");
+      return;
+    } else {
+      setEmailError(null);
+    }
 
     if (password !== confirmPassword) {
       setError("Passwords do not match");
@@ -39,6 +49,14 @@ const Register: React.FC = () => {
       } else {
         setError("An unknown error occurred");
       }
+    }
+  };
+
+  const handleEmailBlur = () => {
+    if (!emailRegex.test(email)) {
+      setEmailError("Invalid email format");
+    } else {
+      setEmailError(null);
     }
   };
 
@@ -81,7 +99,10 @@ const Register: React.FC = () => {
                 margin="normal"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onBlur={handleEmailBlur} // Validate email on blur
                 required
+                error={!!emailError}
+                helperText={emailError}
               />
               <TextField
                 label="Password"
