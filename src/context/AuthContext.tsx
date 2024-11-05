@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -12,8 +12,8 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   token: null,
-  login: () => { },
-  logout: () => { },
+  login: () => {},
+  logout: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -27,7 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const login = (newToken: string) => {
     localStorage.setItem("accessToken", newToken);
     setToken(newToken);
-    toast.success('Đăng nhập thành công!', {
+    toast.success("Đăng nhập thành công!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -36,13 +36,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       draggable: true,
       progress: undefined,
     });
-    navigate('/', { replace: true });
+    navigate("/", { replace: true });
   };
 
   const logout = () => {
     localStorage.removeItem("accessToken");
     setToken(null);
-    toast.info('Đã đăng xuất!', {
+    toast.info("Đã đăng xuất!", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -51,7 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       draggable: true,
       progress: undefined,
     });
-    navigate('/login');
+    navigate("/login");
   };
 
   const value = {

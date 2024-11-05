@@ -11,7 +11,7 @@ import {
 import { registerUser } from "../services/api";
 import { User } from "../types/userType";
 import { useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -43,7 +43,7 @@ const Register: React.FC = () => {
 
     try {
       await registerUser(userData);
-      toast.success('Đăng ký thành công! Vui lòng đăng nhập.', {
+      toast.success("Đăng ký thành công! Vui lòng đăng nhập.", {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
@@ -52,7 +52,7 @@ const Register: React.FC = () => {
         draggable: true,
         progress: undefined,
       });
-      navigate('/login');
+      navigate("/login");
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
