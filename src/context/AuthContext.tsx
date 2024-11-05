@@ -10,22 +10,24 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   token: null,
-  login: () => { },
-  logout: () => { },
+  login: () => {},
+  logout: () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("accessToken"),
+  );
 
   const login = (newToken: string) => {
-    localStorage.setItem('accessToken', newToken);
+    localStorage.setItem("accessToken", newToken);
     setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem("accessToken");
     setToken(null);
   };
 

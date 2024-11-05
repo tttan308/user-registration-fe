@@ -6,12 +6,12 @@ import {
   Card,
   CardContent,
   Box,
-  Stack
+  Stack,
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Home: React.FC = () => {
   const { logout } = useAuth();
@@ -59,7 +59,7 @@ const Home: React.FC = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => navigate('/profile')}
+                onClick={() => navigate("/profile")}
                 startIcon={<AccountCircleIcon />}
                 sx={{
                   paddingX: 4,
