@@ -6,11 +6,16 @@ import {
   Card,
   CardContent,
   Box,
+  Stack
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Home: React.FC = () => {
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -49,24 +54,48 @@ const Home: React.FC = () => {
             >
               You are successfully logged in to your account.
             </Typography>
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={logout}
-              sx={{
-                paddingX: 4,
-                paddingY: 1.5,
-                fontSize: "1rem",
-                borderRadius: "20px",
-                boxShadow: 3,
-                "&:hover": {
-                  backgroundColor: "#d32f2f",
-                  color: "#fff",
-                },
-              }}
-            >
-              Logout
-            </Button>
+
+            <Stack direction="row" spacing={2}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate('/profile')}
+                startIcon={<AccountCircleIcon />}
+                sx={{
+                  paddingX: 4,
+                  paddingY: 1.5,
+                  fontSize: "1rem",
+                  borderRadius: "20px",
+                  boxShadow: 3,
+                  "&:hover": {
+                    backgroundColor: "#1976d2",
+                    color: "#fff",
+                  },
+                }}
+              >
+                Profile
+              </Button>
+
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={logout}
+                startIcon={<LogoutIcon />}
+                sx={{
+                  paddingX: 4,
+                  paddingY: 1.5,
+                  fontSize: "1rem",
+                  borderRadius: "20px",
+                  boxShadow: 3,
+                  "&:hover": {
+                    backgroundColor: "#d32f2f",
+                    color: "#fff",
+                  },
+                }}
+              >
+                Logout
+              </Button>
+            </Stack>
           </CardContent>
         </Card>
       </Container>

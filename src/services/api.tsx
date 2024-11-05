@@ -53,3 +53,16 @@ export const logOut = async (logoutRequest: LogoutRequest) => {
     }
   }
 };
+
+export const getUserProfile = async () => {
+  try {
+    const response = await api.get('/user/profile', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return response.data;
+  } catch {
+    throw new Error('Failed to fetch profile');
+  }
+};

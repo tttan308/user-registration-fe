@@ -1,45 +1,42 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { LoginResponse } from "../types/userType";
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useContext, useState } from "react";
 
-interface AuthContextProps {
+interface AuthContextType {
   isAuthenticated: boolean;
-  login: (data: LoginResponse) => void;
+  token: string | null;
+  login: (token: string) => void;
   logout: () => void;
 }
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType>({
+  isAuthenticated: false,
+  token: null,
+  login: () => { },
+  logout: () => { },
+});
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const navigate = useNavigate();
+  const [token, setToken] = useState<string | null>(localStorage.getItem('accessToken'));
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    setIsAuthenticated(!!accessToken);
-  }, []);
-
-  const login = (data: LoginResponse) => {
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    setIsAuthenticated(true);
-    navigate("/");
+  const login = (newToken: string) => {
+    localStorage.setItem('accessToken', newToken);
+    setToken(newToken);
   };
 
   const logout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    setIsAuthenticated(false);
-    navigate("/login");
+    localStorage.removeItem('accessToken');
+    setToken(null);
   };
 
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    isAuthenticated: !!token,
+    token,
+    login,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

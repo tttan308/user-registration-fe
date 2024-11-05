@@ -22,7 +22,7 @@ const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
 
     try {
       const response: LoginResponse = await loginUser(userData);
-      login(response);
+      login(response.accessToken);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);

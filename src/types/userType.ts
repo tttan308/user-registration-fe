@@ -3,19 +3,17 @@ export interface User {
   password: string;
 }
 
-export interface RegisterResponse {
+export interface LoginResponse {
+  accessToken: string;
   id: string;
   email: string;
-  password: string;
   createdAt: string;
 }
 
-export interface LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-  user: User;
+export interface RegisterResponse {
+  message: string;
 }
 
 export interface LogoutRequest {
-  token: string; // refresh token
+  refreshToken: string;
 }
