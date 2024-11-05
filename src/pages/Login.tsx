@@ -39,6 +39,7 @@ const Login: React.FC = () => {
 
     try {
       const response: LoginResponse = await loginUser(userData);
+      localStorage.setItem('refreshToken', response.refreshToken);
       login(response.accessToken);
     } catch (err) {
       if (err instanceof Error) {
@@ -46,7 +47,6 @@ const Login: React.FC = () => {
       } else {
         setError("An unknown error occurred");
       }
-    } finally {
       setLoading(false);
     }
   };

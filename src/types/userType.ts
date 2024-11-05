@@ -5,6 +5,7 @@ export interface User {
 
 export interface LoginResponse {
   accessToken: string;
+  refreshToken: string;
   id: string;
   email: string;
   createdAt: string;

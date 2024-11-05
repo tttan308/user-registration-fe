@@ -11,16 +11,17 @@ import {
 import { registerUser } from "../services/api";
 import { User } from "../types/userType";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [emailError, setEmailError] = useState<string | null>(null); // Email validation error
+  const [emailError, setEmailError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email format validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +43,17 @@ const Register: React.FC = () => {
 
     try {
       await registerUser(userData);
-      navigate("/login");
-    } catch (err: unknown) {
+      toast.success('Đăng ký thành công! Vui lòng đăng nhập.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      navigate('/login');
+    } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
       } else {
